@@ -3,12 +3,11 @@ class Node:
         self.value = value
         self.left = None
         self.right = None
-    
-class BinarySearchTree():
-    #approach(2): 
+        
+
+class BinarySearchTree:
     def __init__(self):
-        self.root = None 
-        #root is pointer similar to head in LL
+        self.root = None
 
     def insert(self, value):
         new_node = Node(value)
@@ -24,18 +23,17 @@ class BinarySearchTree():
                     temp.left = new_node
                     return True
                 temp = temp.left
-            else:
+            else: 
                 if temp.right is None:
                     temp.right = new_node
                     return True
                 temp = temp.right
 
     def contains(self, value):
-        # if self.root is None:
-        #     return False
-        # condition still in loop
+        if self.root is None:
+            return False
         temp = self.root
-        while temp is not None:
+        while (temp):
             if value < temp.value:
                 temp = temp.left
             elif value > temp.value:
@@ -43,6 +41,35 @@ class BinarySearchTree():
             else:
                 return True
         return False
+        
+    def BFS(self):
+        current_node = self.root
+        queue = []
+        results = []
+        queue.append(current_node)
+
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            results.append(current_node.value)
+            if current_node.left is not None:
+                queue.append(current_node.left)
+            if current_node.right is not None:
+                queue.append(current_node.right)
+        return results
+    
+    def dfs_pre_order(self):
+        results = []
+
+        def traverse(current_node):
+            results.append(current_node.value)
+            if current_node.left is not None:
+                traverse(current_node.left)
+            if current_node.right is not None:
+                traverse(current_node.right)
+
+        traverse(self.root)
+        return results
+
 
 my_tree = BinarySearchTree()
 my_tree.insert(47)
@@ -53,6 +80,6 @@ my_tree.insert(27)
 my_tree.insert(52)
 my_tree.insert(82)
 
-print(my_tree.contains(27))
+print(my_tree.dfs_pre_order())
 
-print(my_tree.contains(17))
+# [47, 21, 18, 27, 76, 52, 82]
